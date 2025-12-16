@@ -40,13 +40,33 @@
         animation: pop 0.8s ease-out forwards;
       }
     </style>
+    <!-- Error Handler to debug black screen -->
+    <script>
+      window.addEventListener('error', function(e) {
+        // Ignore resizeobserver loop errors which are harmless
+        if (e.message === 'ResizeObserver loop limit exceeded') return;
+        
+        console.error("Global Error:", e);
+        // Only show fatal errors if root is empty (app didn't load)
+        const root = document.getElementById('root');
+        if (root && root.innerHTML.trim() === '') {
+           document.body.innerHTML = `
+            <div style="color: #ff5555; padding: 20px; background: #222; height: 100vh; font-family: sans-serif;">
+              <h2>Ошибка запуска</h2>
+              <p>Не удалось загрузить игру. Проверьте консоль.</p>
+              <pre style="background: #000; padding: 10px; overflow: auto;">${e.message}\n${e.filename}:${e.lineno}</pre>
+            </div>
+          `;
+        }
+      });
+    </script>
     <script type="importmap">
 {
   "imports": {
-    "react": "https://esm.sh/react@18.2.0",
-    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client",
-    "react-dom": "https://esm.sh/react-dom@18.2.0",
-    "lucide-react": "https://esm.sh/lucide-react@0.344.0",
+    "react": "https://esm.sh/react@18.2.0?dev",
+    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client?dev",
+    "react-dom": "https://esm.sh/react-dom@18.2.0?dev",
+    "lucide-react": "https://esm.sh/lucide-react@0.344.0?dev",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
     "react/": "https://esm.sh/react@^19.2.3/"
   }
